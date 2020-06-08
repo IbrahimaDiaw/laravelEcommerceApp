@@ -14,6 +14,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::post('login', 'Auth\User\LoginController@login');
+Route::post('register', 'Auth\User\loginController@userRegister');
+
+Route::post('auth/vendor/login', 'Auth\Vendor\LoginController@login');
+Route::post('auth/vendor/register', 'Auth\Vendor\LoginController@vendorRegister');
+
+Route::post('auth/admin/login', 'Auth\Admin\LoginController@login');
+Route::post('auth/admin/register', 'Auth\Admin\LoginController@adminRegister');
+
+Route::group(['middleware' => 'jwt.auth'], function () {
+    Route::get('admin', 'Auth\Admin\LoginController@getAuthAdmin');
+});
+
+
+
+Route::group(['middleware' => 'jwt.auth'], function () {
+    Route::get('user', 'Auth\User\LoginController@getAuthUser');
+});
+
+
+Route::group(['middleware' => 'jwt.auth'], function () {
+    Route::get('vendor', 'Auth\Vendor\LoginController@getAuthVendor');
 });
