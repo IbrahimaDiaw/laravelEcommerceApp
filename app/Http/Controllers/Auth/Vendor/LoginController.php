@@ -8,6 +8,7 @@ use App\Http\Requests\VendorStoreRequest;
 use JWTAuth;
 use JWTFactory;
 use JWTAuthException;
+use Config;
 use App\Vendor;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -17,6 +18,12 @@ class LoginController extends Controller
     //
     public function __construct(){
         $this->vendor = new Vendor;
+        Config::set('jwt.user', App\Vendor::class);
+        Config::set('auth.providers',['users' =>[
+            'driver' => 'eloquent',
+            'model' => Vendor::class,
+        ]
+        ]);
     }
 
     public function vendorRegister(Request $request){
@@ -44,6 +51,7 @@ class LoginController extends Controller
 
     
     public function login(Request $request){
+     
         $credentials = $request->only('email','password');
         $token = null;
         
@@ -59,7 +67,13 @@ class LoginController extends Controller
         catch (JWTException $e) {
             return response()->json(['error' => 'could_not_create_token'], 500);
         }
-       return response()->json(compact('token'));
+        return response()->json([
+            'response' => 'success',
+            'result' => [
+                'token' => $token,
+                'message' => 'I am Vendor user',
+            ],
+        ]);
     }
 
     public function logout(Request $request){

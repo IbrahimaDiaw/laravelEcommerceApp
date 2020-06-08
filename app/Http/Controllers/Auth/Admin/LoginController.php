@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\AdminStoreRequest;
+use Config;
 use JWTAuth;
 use JWTFactory;
 use JWTAuthException;
@@ -17,6 +18,12 @@ class LoginController extends Controller
     //
     public function __construct(){
         $this->admin = new Admin;
+        Config::set('jwt.user', App\Admin::class);
+        Config::set('auth.providers',['users' =>[
+            'driver' => 'eloquent',
+            'model' => Admin::class,
+        ]
+        ]);
     }
 
     public function adminRegister(Request $request){

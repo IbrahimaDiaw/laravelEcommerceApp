@@ -17,8 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::post('login', 'Auth\User\LoginController@login');
 Route::post('register', 'Auth\User\loginController@userRegister');
 
-Route::post('auth/vendor/login', 'Auth\Vendor\LoginController@login');
-Route::post('auth/vendor/register', 'Auth\Vendor\LoginController@vendorRegister');
+Route::post('auth/login', 'Auth\Vendor\LoginController@login');
+Route::post('auth/register', 'Auth\Vendor\LoginController@vendorRegister');
 
 Route::post('auth/admin/login', 'Auth\Admin\LoginController@login');
 Route::post('auth/admin/register', 'Auth\Admin\LoginController@adminRegister');
